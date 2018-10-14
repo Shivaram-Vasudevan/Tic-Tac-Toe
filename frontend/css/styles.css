@@ -1,0 +1,147 @@
+.fc {
+    display: flex;
+    flex-flow: column wrap;
+}
+
+.fc > * {
+    flex: 1;
+    background: yellow;
+}
+
+.fc header,
+.fc footer {
+    flex: 0 1 100%;
+    text-align: center;
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+    background: orange;
+}
+
+.fc {
+    min-height: 100vh;
+}
+
+.header-text {
+    font-size: 3rem;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.body-text {
+    font-size: 1.5rem;
+    font-family: 'Courier New', Courier, monospace;
+    text-align: center;
+}
+
+.symbolX {
+    background-image: url("../images/x.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    margin: auto;
+    min-width: 75px;
+    max-width: 80px;
+    min-height: 80px;
+}
+
+.symbolO {
+    background-image: url("../images/o.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    margin: auto;
+    min-width: 75px;
+    max-width: 80px;
+    min-height: 80px;
+}
+
+.no-symbol {
+    background-color: #f6fad7;
+    margin: auto;
+    min-width: 75px;
+    max-width: 80px;
+    min-height: 80px;
+}
+
+.board-area {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+}
+
+.board-area > * {
+    flex: 1;
+}
+
+.cell-area {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.cell-area > * {
+    flex: 1;
+}
+
+#game {
+    transition:background-color 0.8s ease;
+}
+
+.player1 {
+    background-color: lightsalmon;
+}
+
+.player2 {
+    background-color: lightsteelblue;
+}
+
+.interactive-button {
+    margin: 10px;
+    background-color: green;
+    border: none;
+    padding: 10px 20px;
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.2rem;
+    border-radius: 12px;
+}
+
+.interactive-button .text-inline-button {
+    width: 1.2rem;
+    height: 1.2rem;
+    vertical-align: middle;
+    display: none;
+}
+
+.interactive-button:hover {
+    box-shadow: 5px 5px 5px grey;
+}
+
+.interactive-button:hover .text-inline-button{
+    display: inline;
+}
+
+.intro-contrainer {
+    display: flex;
+    flex-flow: column wrap;
+    /*background: orchid;*/
+    justify-content: space-around;
+    min-height: 80vh;
+}
+
+.intro-container > * {
+    flex: 1;
+}
+
+.player-selection-button {
+    margin: auto;
+    min-height: 10vh;
+    min-width: 20vw;
+    border-radius: 12px;
+    background-color: green;
+    border: none;
+}
+
+.player-selection-button:hover {
+    box-shadow: 5px 5px 5px grey;
+}
