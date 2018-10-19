@@ -94,7 +94,7 @@ public class BoardTest {
 	@Test
 	public void testPlayerMoveEmpty() {
 		Board board = new Board(testBoardEmpty);
-		board = board.setPlayerAtPosition(PlayerSymbol.COMPUTER, 0);
+		board.setPlayerAtPosition(PlayerSymbol.COMPUTER, 0);
 		
 		PlayerSymbol[] expectedBoardNextMove = testBoardEmpty.clone();
 		expectedBoardNextMove[0] = PlayerSymbol.COMPUTER;
@@ -107,7 +107,7 @@ public class BoardTest {
 	@Test
 	public void testPlayerMovePartiallyEmpty() {
 		Board board = new Board(testBoard1);
-		board = board.setPlayerAtPosition(PlayerSymbol.COMPUTER, 6);
+		board.setPlayerAtPosition(PlayerSymbol.COMPUTER, 6);
 		
 		PlayerSymbol[] expectedBoardNextMove = testBoard1.clone();
 		expectedBoardNextMove[6] = PlayerSymbol.COMPUTER;

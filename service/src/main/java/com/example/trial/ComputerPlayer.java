@@ -11,23 +11,23 @@ public class ComputerPlayer {
 	 */
 	public Board findNextBestMove(Board currentBoard) {
 		Board nextBestMove = null;
-		int nextBestMoveScore = Integer.MIN_VALUE;
+		int nextBestMoveScore = Integer.MIN_VALUE;	
+		PlayerSymbol currentBoardWinner = currentBoard.getWinner();
 		
-		PlayerSymbol[] boardArray = currentBoard.getBoard();
-		
-		if (getWinner(boardArray).equals(PlayerSymbol.EMPTY)) {
-			for (int i = 0; i < boardArray.length; i++) {
-				if (boardArray[i].equals(PlayerSymbol.EMPTY)) {
-					boardArray[i] = PlayerSymbol.COMPUTER;
+		if (currentBoardWinner == PlayerSymbol.EMPTY) {
+			for (int i = 0; i < currentBoard.getBoardLength(); i++) {
+				PlayerSymbol playerAtPosition = currentBoard.getPlayerAtPosition(i);
+				if (playerAtPosition == PlayerSymbol.EMPTY) {
+					currentBoard.setPlayerAtPosition(PlayerSymbol.COMPUTER, i);
 				
-					int boardValue = minimax(boardArray, 0, PlayerSymbol.PLAYER);
+					int boardValue = minimax(currentBoard, 0, PlayerSymbol.PLAYER);
 				
 					if (boardValue > nextBestMoveScore) {
 						nextBestMoveScore = boardValue;
-						nextBestMove = new Board(boardArray.clone());
+						nextBestMove = new Board(currentBoard.getBoard());
 					}
 			
-					boardArray[i] = PlayerSymbol.EMPTY;
+					currentBoard.setPlayerAtPosition(PlayerSymbol.EMPTY, i);
 				}
 			}
 		}
@@ -40,9 +40,9 @@ public class ComputerPlayer {
 	 * @param depth The depth at which this board was reached
 	 * @return The value of the board
 	 */
-	private static int evaluateBoard(PlayerSymbol[] board, int depth) {
+	private static int evaluateBoard(Board board, int depth) {
 		int result;
-		PlayerSymbol winner = getWinner(board);
+		PlayerSymbol winner = board.getWinner();
 		if (winner.equals(PlayerSymbol.COMPUTER)) {
 			result = 10 - depth;
 		}
@@ -58,39 +58,39 @@ public class ComputerPlayer {
 	/*
 	 * Function to get the best value for the board
 	 */
-	private static int minimax(PlayerSymbol[] board, int depth, PlayerSymbol playerToMove) {
+	private static int minimax(Board board, int depth, PlayerSymbol playerToMove) {
 		int boardValue = evaluateBoard(board, depth);
 		if (boardValue != 0) {
 			return boardValue;
 		}
-		if (isBoardFull(board)) {
+		if (board.isBoardFull()) {
 			return 0;
 		}
 		
 		if (playerToMove.equals(PlayerSymbol.COMPUTER)){
 			boardValue = Integer.MIN_VALUE;
-			Set<Integer> emptyPositions = getEmptyPositions(board);
+			Set<Integer> emptyPositions = board.getEmptyPositions();
 			for (int emptyPositionIndex: emptyPositions) {
-				board[emptyPositionIndex] = PlayerSymbol.COMPUTER;
+				board.setPlayerAtPosition(PlayerSymbol.COMPUTER, emptyPositionIndex);
 				int nextMoveValue = minimax(board, depth+1, PlayerSymbol.PLAYER);
 				boardValue = Math.max(boardValue, nextMoveValue);
-				board[emptyPositionIndex] = PlayerSymbol.EMPTY;
+				board.setPlayerAtPosition(PlayerSymbol.EMPTY, emptyPositionIndex);
 			}
 		}
 		else {
 			boardValue = Integer.MAX_VALUE;
-			Set<Integer> emptyPositions = getEmptyPositions(board);
+			Set<Integer> emptyPositions = board.getEmptyPositions();
 			for (int emptyPositionIndex: emptyPositions) {
-				board[emptyPositionIndex] = PlayerSymbol.PLAYER;
+				board.setPlayerAtPosition(PlayerSymbol.PLAYER, emptyPositionIndex);
 				int nextMoveValue = minimax(board, depth+1, PlayerSymbol.COMPUTER);
 				boardValue = Math.min(boardValue, nextMoveValue);
-				board[emptyPositionIndex] = PlayerSymbol.EMPTY;
+				board.setPlayerAtPosition(PlayerSymbol.EMPTY, emptyPositionIndex);
 			}
 		}
 		return boardValue;
 	}
 	
-	private static PlayerSymbol getWinner(PlayerSymbol[] board) {
+	/*private static PlayerSymbol getWinner(PlayerSymbol[] board) {
 		PlayerSymbol winner = PlayerSymbol.EMPTY;
 		int boardSize = 3;
 		int i = 0, j = 0;
@@ -159,7 +159,7 @@ public class ComputerPlayer {
 			}
 		}
 		return winner;
-	}
+	}*/
 	
 	private static Set<Integer> getEmptyPositions(PlayerSymbol[] board) {
 		Set<Integer> emptyPositions = new HashSet<Integer>();
