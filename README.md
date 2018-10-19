@@ -2,10 +2,21 @@
 A simple Tic Tac Toe game built with React and Spring Boot
 
 ## Setting up frontend
-Navigate to the frontend folder and do `npm install` to install all dependencies required for the frontend.
+Navigate to the frontend folder and install all the dependencies required for the frontend
+```
+npm install
+```
 
 ## Starting frontend
-Execute `npm start` in frontend to start the frontend
+```
+npm start
+```
 
 ## Starting the Spring Boot application
-Import the project in Eclipse as a Maven project and run it
+1. Import the service folder in Eclipse or any IDE as a Maven project and run it
+
+2. Build and run the service project using maven
+```
+mvn clean package -DskipTests
+mvn spring-boot:run
+```
