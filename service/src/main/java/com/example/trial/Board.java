@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public class Board {
 	private PlayerSymbol board[];
 	private int boardSize;
-	private Set<Integer> emptyPositions;
 	
 	/*
 	 * Default constructor is required for Jackson to convert the JSON string to a Board object
@@ -21,12 +20,6 @@ public class Board {
 	public Board(PlayerSymbol[] board) {
 		this.board = board;
 		boardSize = (int)Math.sqrt(board.length);
-		emptyPositions = new HashSet<Integer>();
-		for (int i = 0; i < getBoardLength(); i++) {
-			if (board[i].equals(PlayerSymbol.EMPTY)) {
-				emptyPositions.add(i);
-			}
-		}
 	}
 	
 	public int getBoardLength() {
@@ -56,6 +49,12 @@ public class Board {
 	}
 	
 	public Set<Integer> getEmptyPositions() {
+		Set<Integer> emptyPositions = new HashSet<Integer>();
+		for (int i = 0; i < getBoardLength(); i++) {
+			if (board[i] == PlayerSymbol.EMPTY) {
+				emptyPositions.add(i);
+			}
+		}
 		return emptyPositions;
 	}
 	
@@ -64,17 +63,18 @@ public class Board {
 	 * @param symbol The ENUM of the player who is making the move
 	 * @param position The index where the move is to be made
 	 */
-	public Board setPlayerAtPosition(PlayerSymbol symbol, int position) throws IllegalArgumentException{
+	public void setPlayerAtPosition(PlayerSymbol symbol, int position) throws IllegalArgumentException{
 		if (!isIndexWithinRange(position)) {
 			throw new IllegalArgumentException("Position not within [0," + getBoardLength());
 		}
-		if (!isPositionEmpty(position)) {
-			throw new IllegalArgumentException("Position is not empty");
+		board[position] = symbol;
+	}
+	
+	public PlayerSymbol getPlayerAtPosition(int position) {
+		if (!isIndexWithinRange(position)) {
+			throw new IllegalArgumentException("Position not within [0," + getBoardLength());
 		}
-		PlayerSymbol[] clonedBoard = board.clone();
-		clonedBoard[position] = symbol;
-		Board nextBoard = new Board(clonedBoard);
-		return nextBoard;
+		return board[position];
 	}
 	
 	/*
@@ -150,12 +150,6 @@ public class Board {
 		return winner;
 	}
 	
-	private boolean isPositionEmpty(int index) {
-		if (isIndexWithinRange(index))
-			return board[index] == PlayerSymbol.EMPTY;
-		throw new IllegalArgumentException("Index not within [0," + getBoardLength()+"]");
-	}
-	
 	private boolean isIndexWithinRange(int index){
 		if (index >= 0 && index < getBoardLength())
 			return true;
@@ -165,19 +159,11 @@ public class Board {
 	private int getIndex(int row, int column) {
 		return row*boardSize+column;
 	}
-
+	
 	public PlayerSymbol[] getBoard() {
-		return board;
+		return board.clone();
 	}
-	
-	public void setBoard(PlayerSymbol[] board) {
-		this.board = board;
-	}
-	
-	public void setEmptyPositions(Set<Integer> emptyPositions) {
-		this.emptyPositions = emptyPositions;
-	}
-	
+
 	@JsonValue
 	@Override
 	public String toString() {
@@ -196,7 +182,6 @@ public class Board {
 		int result = 1;
 		result = prime * result + Arrays.hashCode(board);
 		result = prime * result + boardSize;
-		result = prime * result + ((emptyPositions == null) ? 0 : emptyPositions.hashCode());
 		return result;
 	}
 
@@ -213,13 +198,6 @@ public class Board {
 			return false;
 		if (boardSize != other.boardSize)
 			return false;
-		if (emptyPositions == null) {
-			if (other.emptyPositions != null)
-				return false;
-		} else if (!emptyPositions.equals(other.emptyPositions))
-			return false;
 		return true;
 	}
-	
-	
 }

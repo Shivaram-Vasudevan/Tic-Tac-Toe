@@ -21,17 +21,13 @@ public class ComputerPlayerTest {
 			PlayerSymbol.COMPUTER, PlayerSymbol.EMPTY, PlayerSymbol.EMPTY,
 			PlayerSymbol.EMPTY, PlayerSymbol.EMPTY, PlayerSymbol.EMPTY};
 	
-	private PlayerSymbol[] testBoardEmpty = {PlayerSymbol.EMPTY, PlayerSymbol.EMPTY,PlayerSymbol.EMPTY, 
-			PlayerSymbol.EMPTY, PlayerSymbol.EMPTY, PlayerSymbol.EMPTY, 
-			PlayerSymbol.EMPTY, PlayerSymbol.EMPTY, PlayerSymbol.EMPTY};
-	
 	private PlayerSymbol[] defensiveBoard = {PlayerSymbol.COMPUTER, PlayerSymbol.EMPTY, PlayerSymbol.PLAYER,
 			PlayerSymbol.EMPTY, PlayerSymbol.PLAYER, PlayerSymbol.EMPTY,
 			PlayerSymbol.EMPTY, PlayerSymbol.EMPTY, PlayerSymbol.EMPTY};
 	
 	private PlayerSymbol[] defensiveBoard1 = {PlayerSymbol.PLAYER, PlayerSymbol.COMPUTER, PlayerSymbol.EMPTY,
 			PlayerSymbol.PLAYER, PlayerSymbol.EMPTY, PlayerSymbol.EMPTY,
-			PlayerSymbol.EMPTY, PlayerSymbol.EMPTY, PlayerSymbol.EMPTY};
+			PlayerSymbol.EMPTY, PlayerSymbol.PLAYER, PlayerSymbol.COMPUTER};
 	
 	private PlayerSymbol[] boardWithWinnerInRow = {PlayerSymbol.COMPUTER, PlayerSymbol.EMPTY, PlayerSymbol.COMPUTER,
 			PlayerSymbol.PLAYER, PlayerSymbol.PLAYER, PlayerSymbol.PLAYER,
@@ -90,14 +86,4 @@ public class ComputerPlayerTest {
 		
 		Assert.assertTrue(Arrays.equals(expectedDefensiveBoard, nextMove.getBoard()));
 	}
-	
-	/*@Test
-	public void testFindNextBestMoveWhenEmpty() {
-		Board board = new Board(testBoardEmpty);
-		Board nextMove = computerPlayer.findNextBestMove(board);
-		
-		int[] expectedIndex = {0,2,6,8};
-		int indexOfMove = Arrays.asList(nextMove.getBoard()).indexOf(PlayerSymbol.COMPUTER);
-		Assert.assertTrue(Arrays.asList(expectedIndex).contains(indexOfMove));
-	}*/
 }
