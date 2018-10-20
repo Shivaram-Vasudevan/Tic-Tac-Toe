@@ -2,8 +2,6 @@ import React from 'react';
 import symbol from '../constants/Symbol';
 
 export default function SymbolChooser(props) {
-    console.log("Displaying SymbolChooser");
-    console.log(props);
     if (props.shouldBeDisplayed) {
         return (
             <div>
