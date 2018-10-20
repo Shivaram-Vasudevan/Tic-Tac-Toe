@@ -20,3 +20,8 @@ npm start
 mvn clean package -DskipTests
 mvn spring-boot:run
 ```
+To remote debug the service
+```
+mvn spring-boot:run 
+    -Dspring-boot.run.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=<port number of your choice>"
+```
