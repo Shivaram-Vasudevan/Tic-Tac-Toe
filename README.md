@@ -13,9 +13,7 @@ npm start
 ```
 
 ## Starting the Spring Boot application
-1. Import the service folder in Eclipse or any IDE as a Maven project and run it
-
-2. Build and run the service project using maven
+Build and run the service project using maven
 ```
 mvn clean package -DskipTests
 mvn spring-boot:run
