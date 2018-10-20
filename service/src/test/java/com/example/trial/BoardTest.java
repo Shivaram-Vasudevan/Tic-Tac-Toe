@@ -49,43 +49,22 @@ public class BoardTest {
 	}
 	
 	/*
-	 * Test to check if the board is filled
-	 */
-	@Test
-	public void testIsBoardFull() {
-		Board boardFilled = new Board(testBoardFilled);
-		Assert.assertTrue(boardFilled.isBoardFull());
-		
-		Board boardEmpty = new Board(testBoardEmpty);
-		Assert.assertFalse(boardEmpty.isBoardFull());
-	}
-	
-	/*
 	 * Test to check if the board is empty
 	 */
 	@Test
 	public void testBoardEmptyPositions() {
 		Board boardFilled = new Board(testBoardFilled);
-		Assert.assertTrue(boardFilled.getEmptyPositions().isEmpty());
+		Assert.assertTrue(boardFilled.emptyPositions().isEmpty());
 		
 		Board boardEmpty = new Board(testBoardEmpty);
-		Set<Integer> emptyPositionSet = boardEmpty.getEmptyPositions();
+		Set<Integer> emptyPositionSet = boardEmpty.emptyPositions();
 		int[] positionArray = {0,1,2,3,4,5,6,7,8};
 		Assert.assertTrue(emptyPositionSet.containsAll(Arrays.asList(positionArray)));
 		
 		Board partiallyFilledBoard = new Board(testBoard1);
-		emptyPositionSet = partiallyFilledBoard.getEmptyPositions();
+		emptyPositionSet = partiallyFilledBoard.emptyPositions();
 		int[] expectedPositionArray = {6,7,8};
 		Assert.assertTrue(emptyPositionSet.containsAll(Arrays.asList(expectedPositionArray)));
-	}
-	
-	/*
-	 * Test to check if the player can be moved in a filled board
-	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void testPlayerMoveIllegalArgument() {
-		Board board = new Board(testBoardFilled);
-		board.setPlayerAtPosition(PlayerSymbol.COMPUTER, 0);
 	}
 	
 	/*
@@ -121,26 +100,26 @@ public class BoardTest {
 	public void testWinner() {
 		//Test 1: test with empty board
 		Board emptyBoard = new Board(testBoardEmpty);
-		Assert.assertEquals(PlayerSymbol.EMPTY, emptyBoard.getWinner());
+		Assert.assertEquals(PlayerSymbol.EMPTY, emptyBoard.winner());
 		
 		//Test 2: test with partially filled board with no winner
 		Board partiallyFilledBoardWithNoWinner = new Board(testBoard1);
-		Assert.assertEquals(PlayerSymbol.EMPTY, partiallyFilledBoardWithNoWinner.getWinner());
+		Assert.assertEquals(PlayerSymbol.EMPTY, partiallyFilledBoardWithNoWinner.winner());
 		
 		//Test 3: test with winner in the row
 		Board partiallyFilledBoardWithRowWinner = new Board(boardWithWinnerInRow);
-		Assert.assertEquals(PlayerSymbol.PLAYER, partiallyFilledBoardWithRowWinner.getWinner());
+		Assert.assertEquals(PlayerSymbol.PLAYER, partiallyFilledBoardWithRowWinner.winner());
 		
 		//Test 4: test with winner in the column
 		Board partiallyFilledBoardWithColumnWinner = new Board(boardWithWinnerInColumn);
-		Assert.assertEquals(PlayerSymbol.PLAYER, partiallyFilledBoardWithColumnWinner.getWinner());
+		Assert.assertEquals(PlayerSymbol.PLAYER, partiallyFilledBoardWithColumnWinner.winner());
 		
 		//Test 5: test with winner along the primary diagonal
 		Board partiallyFilledBoardWithDiagonalWinner = new Board(boardWithWinnerInPrimaryDiagonal);
-		Assert.assertEquals(PlayerSymbol.PLAYER, partiallyFilledBoardWithDiagonalWinner.getWinner());
+		Assert.assertEquals(PlayerSymbol.PLAYER, partiallyFilledBoardWithDiagonalWinner.winner());
 		
 		//Test 6: test with winner along the secondary diagonal
 		Board partiallyFilledBoardWithSecondaryDiagonalWinner = new Board(boardWithWinnerInSecondaryDiagonal);
-		Assert.assertEquals(PlayerSymbol.PLAYER, partiallyFilledBoardWithSecondaryDiagonalWinner.getWinner());
+		Assert.assertEquals(PlayerSymbol.PLAYER, partiallyFilledBoardWithSecondaryDiagonalWinner.winner());
 	}
 }

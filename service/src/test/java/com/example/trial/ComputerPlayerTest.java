@@ -27,7 +27,7 @@ public class ComputerPlayerTest {
 	
 	private PlayerSymbol[] defensiveBoard1 = {PlayerSymbol.PLAYER, PlayerSymbol.COMPUTER, PlayerSymbol.EMPTY,
 			PlayerSymbol.PLAYER, PlayerSymbol.EMPTY, PlayerSymbol.EMPTY,
-			PlayerSymbol.EMPTY, PlayerSymbol.PLAYER, PlayerSymbol.COMPUTER};
+			PlayerSymbol.EMPTY, PlayerSymbol.EMPTY, PlayerSymbol.EMPTY};
 	
 	private PlayerSymbol[] boardWithWinnerInRow = {PlayerSymbol.COMPUTER, PlayerSymbol.EMPTY, PlayerSymbol.COMPUTER,
 			PlayerSymbol.PLAYER, PlayerSymbol.PLAYER, PlayerSymbol.PLAYER,
