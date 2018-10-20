@@ -29,8 +29,6 @@ export default class Board extends React.Component {
     }
 
     render() {
-        console.log("Displaying Board");
-        console.log(this.props);
         if (this.props.shouldBeDisplayed) {
             let gameText = this.props.currentPlayerName;
             const shouldEndCardBeDisplayed = this.props.disabled && this.props.status != status.NO_RESULT;

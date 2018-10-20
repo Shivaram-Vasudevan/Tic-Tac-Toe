@@ -22,16 +22,12 @@ public class GameController {
 	@CrossOrigin
 	@RequestMapping(value="/nextMove", method=RequestMethod.GET)
 	public String index(@RequestParam(value="board")String boardAsJsonString) {
-		System.out.println("String received by the service:" + boardAsJsonString);
-		Deserializer deserializer = Deserializer.getDeserializer();
 		ObjectMapper mapper = new ObjectMapper();
 		Board board = null, nextMove = null;
 		String nextBoardMove = null;
 		try {
-			board = deserializer.getBoardFromJSONString(boardAsJsonString);
-			System.out.println("Deserialized board:" + board);
+			board = mapper.readValue(boardAsJsonString, Board.class);
 			nextMove = computerPlayer.findNextBestMove(board);
-			System.out.println(nextMove);
 			nextBoardMove = mapper.writeValueAsString(nextMove);
 		} catch (JsonParseException e) {
 			e.printStackTrace();

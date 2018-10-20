@@ -1,8 +1,6 @@
 import React from 'react';
 
 export default function PlayingModeChooser(props) {
-    console.log("Going to display PlayingModeChooser");
-    console.log(props)
     if (props.shouldBeDisplayed) {
         return (
             <div class="intro-contrainer">

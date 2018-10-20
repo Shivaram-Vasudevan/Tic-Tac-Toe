@@ -12,23 +12,21 @@ public class ComputerPlayer {
 	public Board findNextBestMove(Board currentBoard) {
 		Board nextBestMove = null;
 		int nextBestMoveScore = Integer.MIN_VALUE;	
-		PlayerSymbol currentBoardWinner = currentBoard.getWinner();
+		PlayerSymbol currentBoardWinner = currentBoard.winner();
 		
 		if (currentBoardWinner == PlayerSymbol.EMPTY) {
-			for (int i = 0; i < currentBoard.getBoardLength(); i++) {
-				PlayerSymbol playerAtPosition = currentBoard.getPlayerAtPosition(i);
-				if (playerAtPosition == PlayerSymbol.EMPTY) {
-					currentBoard.setPlayerAtPosition(PlayerSymbol.COMPUTER, i);
+			Set<Integer> emptyPositions = currentBoard.emptyPositions();
+			for (int i : emptyPositions) {
+				currentBoard.setPlayerAtPosition(PlayerSymbol.COMPUTER, i);
 				
-					int boardValue = minimax(currentBoard, 0, PlayerSymbol.PLAYER);
+				int boardValue = minimax(currentBoard, 0, PlayerSymbol.PLAYER);
 				
-					if (boardValue > nextBestMoveScore) {
-						nextBestMoveScore = boardValue;
-						nextBestMove = new Board(currentBoard.getBoard());
-					}
-			
-					currentBoard.setPlayerAtPosition(PlayerSymbol.EMPTY, i);
+				if (boardValue > nextBestMoveScore) {
+					nextBestMoveScore = boardValue;
+					nextBestMove = new Board(currentBoard.getBoard(), currentBoard.getBoardSize());
 				}
+			
+				currentBoard.setPlayerAtPosition(PlayerSymbol.EMPTY, i);
 			}
 		}
 		return nextBestMove;
@@ -42,7 +40,7 @@ public class ComputerPlayer {
 	 */
 	private static int evaluateBoard(Board board, int depth) {
 		int result;
-		PlayerSymbol winner = board.getWinner();
+		PlayerSymbol winner = board.winner();
 		if (winner.equals(PlayerSymbol.COMPUTER)) {
 			result = 10 - depth;
 		}
@@ -63,13 +61,13 @@ public class ComputerPlayer {
 		if (boardValue != 0) {
 			return boardValue;
 		}
-		if (board.isBoardFull()) {
+		Set<Integer> emptyPositions = board.emptyPositions();
+		if (emptyPositions.isEmpty()) {
 			return 0;
 		}
 		
 		if (playerToMove.equals(PlayerSymbol.COMPUTER)){
 			boardValue = Integer.MIN_VALUE;
-			Set<Integer> emptyPositions = board.getEmptyPositions();
 			for (int emptyPositionIndex: emptyPositions) {
 				board.setPlayerAtPosition(PlayerSymbol.COMPUTER, emptyPositionIndex);
 				int nextMoveValue = minimax(board, depth+1, PlayerSymbol.PLAYER);
@@ -79,7 +77,6 @@ public class ComputerPlayer {
 		}
 		else {
 			boardValue = Integer.MAX_VALUE;
-			Set<Integer> emptyPositions = board.getEmptyPositions();
 			for (int emptyPositionIndex: emptyPositions) {
 				board.setPlayerAtPosition(PlayerSymbol.PLAYER, emptyPositionIndex);
 				int nextMoveValue = minimax(board, depth+1, PlayerSymbol.COMPUTER);

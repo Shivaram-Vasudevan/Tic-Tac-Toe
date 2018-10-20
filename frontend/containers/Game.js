@@ -89,9 +89,7 @@ export default class Game extends React.Component {
 
     async getComputerMove(board, playerSymbol) {
         try{
-            console.log("Player symbol" + playerSymbol);
             const boardAfterComputerMove = await getNextBoard(board, playerSymbol);
-            console.log("Board after computer move " + boardAfterComputerMove);
             const boardStatus = getBoardStatus(boardAfterComputerMove);
             this.setState({board: boardAfterComputerMove, currentPlayer: playerName.PLAYER, status: boardStatus});
         }
@@ -133,9 +131,6 @@ export default class Game extends React.Component {
 
         let isBoardDisabled = this.state.isSinglePlayer && (this.state.currentPlayer == playerName.COMPUTER);
         isBoardDisabled = isBoardDisabled || (boardStatus != status.NO_RESULT);
-
-        console.log("Container state");
-        console.log(this.state);
 
         return (
             <React.Fragment>

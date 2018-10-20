@@ -4,7 +4,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Board {
 	private PlayerSymbol board[];
@@ -16,41 +17,18 @@ public class Board {
 	public Board() {
 		super();
 	}
-
-	public Board(PlayerSymbol[] board) {
+	
+	@JsonCreator
+	public Board(
+			@JsonProperty("board") PlayerSymbol[] board,
+			@JsonProperty("boardSize") int boardSize) {
 		this.board = board;
-		boardSize = (int)Math.sqrt(board.length);
+		this.boardSize = boardSize;
 	}
 	
-	public int getBoardLength() {
-		return board.length;
-	}
-	
-	/*
-	 * Checks if there are no moves left
-	 * @param : None
-	 * @return : TRUE if there are no empty spaces, FALSE otherwise
-	 */
-	public boolean isBoardFull() {
-		for (int i = 0; i < getBoardLength(); i++) {
-			if (board[i] == PlayerSymbol.EMPTY)
-				return false;
-		}
-		return true;
-	}
-	
-	/*
-	 * Checks if there is atleast one empty position
-	 * @param: None
-	 * @return: TRUE if there is atleast one empty position, FALSE otherwise
-	 */
-	public boolean isAnyPositionEmpty() {
-		return !isBoardFull();
-	}
-	
-	public Set<Integer> getEmptyPositions() {
+	public Set<Integer> emptyPositions() {
 		Set<Integer> emptyPositions = new HashSet<Integer>();
-		for (int i = 0; i < getBoardLength(); i++) {
+		for (int i = 0; i < board.length; i++) {
 			if (board[i] == PlayerSymbol.EMPTY) {
 				emptyPositions.add(i);
 			}
@@ -65,14 +43,14 @@ public class Board {
 	 */
 	public void setPlayerAtPosition(PlayerSymbol symbol, int position) throws IllegalArgumentException{
 		if (!isIndexWithinRange(position)) {
-			throw new IllegalArgumentException("Position not within [0," + getBoardLength());
+			throw new IllegalArgumentException("Position not within [0," + board.length);
 		}
 		board[position] = symbol;
 	}
 	
 	public PlayerSymbol getPlayerAtPosition(int position) {
 		if (!isIndexWithinRange(position)) {
-			throw new IllegalArgumentException("Position not within [0," + getBoardLength());
+			throw new IllegalArgumentException("Position not within [0," + board.length);
 		}
 		return board[position];
 	}
@@ -82,7 +60,7 @@ public class Board {
 	 * @param None
 	 * @return The ENUM of the player who has won the game
 	 */
-	public PlayerSymbol getWinner() {
+	public PlayerSymbol winner() {
 		PlayerSymbol winner = PlayerSymbol.EMPTY;
 		int i = 0, j = 0;
 		
@@ -91,7 +69,7 @@ public class Board {
 			for (j = 0; j < boardSize-1; j++) {
 				PlayerSymbol currentSymbol = board[getIndex(i, j)];
 				PlayerSymbol nextSymbol = board[getIndex(i, j+1)];
-				if (currentSymbol != nextSymbol) {
+				if (currentSymbol != nextSymbol || currentSymbol == PlayerSymbol.EMPTY) {
 					break;
 				}
 			}
@@ -106,7 +84,7 @@ public class Board {
 				for (j = 0; j < boardSize-1; j++) {
 					PlayerSymbol currentSymbol = board[getIndex(j, i)];
 					PlayerSymbol nextSymbol = board[getIndex(j+1, i)];
-					if (currentSymbol != nextSymbol) {
+					if (currentSymbol != nextSymbol || currentSymbol == PlayerSymbol.EMPTY) {
 						break;
 					}
 				}
@@ -121,7 +99,7 @@ public class Board {
 			for (i = 0; i < boardSize-1; i++) {
 				PlayerSymbol currentSymbol = board[getIndex(i, i)];
 				PlayerSymbol nextSymbol = board[getIndex(i+1, i+1)];
-				if (currentSymbol != nextSymbol) {
+				if (currentSymbol != nextSymbol || currentSymbol == PlayerSymbol.EMPTY) {
 					break;
 				}
 			}
@@ -137,7 +115,7 @@ public class Board {
 			while ( i > 0) {
 				PlayerSymbol currentSymbol = board[getIndex(i, j)];
 				PlayerSymbol nextSymbol = board[getIndex(i-1, j+1)];
-				if (currentSymbol != nextSymbol) {
+				if (currentSymbol != nextSymbol || currentSymbol == PlayerSymbol.EMPTY) {
 					break;
 				}
 				i--;
@@ -151,7 +129,7 @@ public class Board {
 	}
 	
 	private boolean isIndexWithinRange(int index){
-		if (index >= 0 && index < getBoardLength())
+		if (index >= 0 && index < board.length)
 			return true;
 		return false;
 	}
@@ -160,20 +138,20 @@ public class Board {
 		return row*boardSize+column;
 	}
 	
+	public void setBoard(PlayerSymbol[] board) {
+		this.board = board;
+	}
+	
 	public PlayerSymbol[] getBoard() {
 		return board.clone();
 	}
+	
+	public int getBoardSize() {
+		return boardSize;
+	}
 
-	@JsonValue
-	@Override
-	public String toString() {
-		String result = "[";
-		int boardLength = getBoardLength();
-		for (int i = 0; i < boardLength - 1; i++) {
-			result += "\"" + board[i].getRepresentation() + "\"" + ",";
-		}
-		result += "\"" + board[board.length - 1].getRepresentation() + "\"" + "]";
-		return result;
+	public void setBoardSize(int boardSize) {
+		this.boardSize = boardSize;
 	}
 
 	@Override
