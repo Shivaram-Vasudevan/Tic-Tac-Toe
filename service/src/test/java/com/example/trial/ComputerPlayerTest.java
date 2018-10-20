@@ -13,6 +13,8 @@ import org.junit.Assert;
 @ContextConfiguration(classes=GameApplicationContext.class,loader=AnnotationConfigContextLoader.class)
 public class ComputerPlayerTest {
 	
+	private final int boardSize = 3;
+	
 	private PlayerSymbol[] testBoard1 = {PlayerSymbol.COMPUTER, PlayerSymbol.PLAYER, PlayerSymbol.COMPUTER,
 			PlayerSymbol.PLAYER, PlayerSymbol.EMPTY, PlayerSymbol.COMPUTER,
 			PlayerSymbol.EMPTY, PlayerSymbol.EMPTY, PlayerSymbol.EMPTY};
@@ -43,7 +45,7 @@ public class ComputerPlayerTest {
 	
 	@Test
 	public void testFindNextBestMoveWhenNotInDanger() {
-		Board board1 = new Board(testBoard1);
+		Board board1 = new Board(testBoard1, boardSize);
 		Board nextBoard = computerPlayer.findNextBestMove(board1);
 		
 		PlayerSymbol[] expectedBoardForTestBoard1 = testBoard1.clone();
@@ -51,7 +53,7 @@ public class ComputerPlayerTest {
 		
 		Assert.assertTrue(Arrays.equals(expectedBoardForTestBoard1, nextBoard.getBoard()));
 		
-		Board board2 = new Board(testBoard2);
+		Board board2 = new Board(testBoard2, boardSize);
 		nextBoard = computerPlayer.findNextBestMove(board2);
 		
 		PlayerSymbol[] expectedBoardForTestBoard2 = testBoard2.clone();
@@ -62,7 +64,7 @@ public class ComputerPlayerTest {
 	
 	@Test
 	public void testFindNextBestMoveForEndedGame() {
-		Board board1 = new Board(boardWithWinnerInRow);
+		Board board1 = new Board(boardWithWinnerInRow, boardSize);
 		Board nextBoard = computerPlayer.findNextBestMove(board1);
 		
 		Assert.assertNull(nextBoard);
@@ -70,7 +72,7 @@ public class ComputerPlayerTest {
 	
 	@Test
 	public void testFindNextBestMoveWhenInDanger() {
-		Board board1 = new Board(defensiveBoard);
+		Board board1 = new Board(defensiveBoard, boardSize);
 		Board nextMove = computerPlayer.findNextBestMove(board1);
 		
 		PlayerSymbol[] expectedDefensiveBoard = defensiveBoard.clone();
@@ -78,7 +80,7 @@ public class ComputerPlayerTest {
 		
 		Assert.assertTrue(Arrays.equals(expectedDefensiveBoard, nextMove.getBoard()));
 		
-		board1 = new Board(defensiveBoard1);
+		board1 = new Board(defensiveBoard1, boardSize);
 		nextMove = computerPlayer.findNextBestMove(board1);
 		
 		expectedDefensiveBoard = defensiveBoard1.clone();

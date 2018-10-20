@@ -17,11 +17,6 @@ public class Board {
 	public Board() {
 		super();
 	}
-
-	public Board(PlayerSymbol[] board) {
-		this.board = board;
-		boardSize = (int)Math.sqrt(board.length);
-	}
 	
 	@JsonCreator
 	public Board(

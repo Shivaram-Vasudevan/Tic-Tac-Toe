@@ -23,7 +23,7 @@ public class ComputerPlayer {
 				
 				if (boardValue > nextBestMoveScore) {
 					nextBestMoveScore = boardValue;
-					nextBestMove = new Board(currentBoard.getBoard());
+					nextBestMove = new Board(currentBoard.getBoard(), currentBoard.getBoardSize());
 				}
 			
 				currentBoard.setPlayerAtPosition(PlayerSymbol.EMPTY, i);
